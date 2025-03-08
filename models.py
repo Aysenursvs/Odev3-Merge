@@ -51,3 +51,14 @@ class Task(Base):
     column_id = Column(Integer, ForeignKey('columns.id', ondelete="CASCADE"))
 
     column = relationship('ColumnsOfBoard', back_populates='tasks')
+    tags = relationship('Tag', back_populates='task', cascade="all, delete-orphan")
+    comments = relationship('Comment', back_populates='task', cascade="all, delete-orphan")
+
+
+class Comment(Base):
+    __tablename__ = 'comments'
+
+    id = Column(Integer, primary_key=True, index=True)
+    text = Column(String)
+    task_id = Column(Integer, ForeignKey('tasks.id', ondelete="CASCADE"))
+    user_id = Column(Integer, ForeignKey('users.id', ondelete="CASCADE"))
